@@ -1,3 +1,114 @@
+
+
+// Merge sort
+void merge(int arr[], int l, int m, int r)
+{
+	int i, j, k;
+	int n1 = m - l + 1;
+	int n2 = r - m;
+	
+	int L[n1], R[n2];
+
+	for (i = 0; i < n1; i++)
+		L[i] = arr[l + i];
+	for (j = 0; j < n2; j++)
+		R[j] = arr[m + 1 + j];
+
+	i = 0;
+	j = 0; 
+	k = l; 
+	while (i < n1 && j < n2)
+	{
+		if (L[i] <= R[j])
+		{
+			arr[k] = L[i];
+			i++;
+		}
+		else
+		{
+			arr[k] = R[j];
+			j++;
+		}
+		k++;
+	}
+
+	while (i < n1)
+	{
+		arr[k] = L[i];
+		i++;
+		k++;
+	}
+
+	while (j < n2)
+	{
+		arr[k] = R[j];
+		j++;
+		k++;
+	}
+}
+
+void mergeSort(int arr[], int l, int r)
+{
+	printf("%d", r);
+	if (l < r)
+	{
+		int m = l + (r - l) / 2;		
+		mergeSort(arr, l, m);
+		mergeSort(arr, m + 1, r);
+		merge(arr, l, m, r);		
+	}	
+	
+}
+
+// Merge sort for  special case (n less than or equal to 20)
+void mergeSortStar(int arr[], int l, int r)
+{
+	printf("%d", r);
+	if (l < r)
+	{
+		int m = l + (r - l) / 2;
+		mergeSortStar(arr, l, m);
+		mergeSortStar(arr, m + 1, r);
+		merge(arr, l, m, r);
+		if ((r + 1) <= 20)
+		{
+			printStar(arr, (r + 1));
+		}
+	}
+
+}
+
+// Randomized Quick sort Algorithm
+int partition(int arr[], int p, int r)
+{
+	srand(time(0));
+	int pivot = rand() % (r - p);
+	pivot += p;
+	
+	int swapTemp;
+	
+	swapTemp = arr[pivot];
+	arr[pivot] = arr[r];
+	arr[r] = swapTemp;
+
+	pivot = r;
+	int temp = arr[r];
+	int i = p - 1;
+	for (int j = p; j < r; j++) {
+		if (arr[j] <  temp) {
+			i++;
+			swapTemp = arr[j];
+			arr[j] = arr[i];
+			arr[i] = swapTemp;
+		}
+	}
+	i++;
+	swapTemp = arr[i];
+	arr[i] = arr[r];
+	arr[r] = swapTemp;
+	return i;
+}
+
 void randomizedQuickSort(int arr[], int p, int r)
 {
 	if (p < r)
