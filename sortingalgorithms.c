@@ -1,3 +1,32 @@
+#include<stdio.h>
+#include<stdlib.h>  
+#include<math.h>
+#include<time.h>
+
+// Function to print an array
+void printArray(int arr[], int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		printf("%d \t", arr[i]);
+	}
+	printf("\n");
+}
+
+// Function to print stars relative to value of integer in an array
+void printStar(int arr[], int n)
+{
+	printf("Visualization:\n");
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < arr[i]; j++)
+		{
+			printf("*");
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
 
 
 //Exchange sort
