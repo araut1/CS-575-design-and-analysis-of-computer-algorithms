@@ -1,3 +1,28 @@
+void randomizedQuickSort(int arr[], int p, int r)
+{
+	if (p < r)
+	{
+		int q = partition(arr, p, r);
+		randomizedQuickSort(arr, p, q);
+		randomizedQuickSort(arr, q + 1, r);	
+	}
+}
+
+// Randomized Quick sort function for special case (n less than or equal to 20)
+void randomizedQuickSortStar(int arr[], int p, int r)
+{
+	if (p < r)
+	{
+		int q = partition(arr, p, r);
+		randomizedQuickSortStar(arr, p, q);
+		randomizedQuickSortStar(arr, q + 1, r);
+
+		if ((r + 1) <= 20)
+		{
+			printStar(arr, (r + 1));
+		}
+	}
+}
 
 int main()
 {
