@@ -1,5 +1,29 @@
 
 
+// Insertion sort
+void insertionSort(int arr[], int n)
+{
+	int i, j, key;
+	
+	for (i = 1; i < n; i++)
+	{
+		key = arr[i];
+		j = i - 1;
+
+		while (j >= 0 && arr[j] > key)
+		{
+			arr[j + 1] = arr[j];
+			j = j - 1;
+		}
+		arr[j + 1] = key;
+		if (n <= 20)
+		{
+			printStar(arr, n);
+		}
+	}
+}
+
+
 // Merge sort
 void merge(int arr[], int l, int m, int r)
 {
