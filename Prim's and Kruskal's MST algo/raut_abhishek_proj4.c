@@ -290,6 +290,51 @@ void primsMSTarray()
     printMST(parent);
 }
 
+
+// GUI and driver utilities
+void printDialog()
+{
+    printf("\nSelect minimum-spanning-tree Algorithm:\n");
+    printf("1. Prim's MST\n");
+    printf("2. Kruskal's MST\n");
+    printf("3. Exit\n");
+    printf("Enter  your choice:\n\n");
+}
+
+int getInput()
+{
+    int algorithmId = -1;
+    char ch;
+    if (scanf("%d", &algorithmId) != 1)
+    {
+        while ((ch = getchar()) != '\n' && ch != EOF)
+            ;
+        printf("\nPlease Enter a number!\n");
+        return getInput();
+    }
+    return algorithmId;
+}
+
+int validateChoice(int algorithmId)
+{
+    // error for out of choice number
+    if (algorithmId <= 0 || algorithmId >= 4)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+// user wants to exit
+void checkForExit(int algorithmId)
+{
+    if (algorithmId == 3)
+    {
+        printf("\nExiting...\n");
+        exit(0);
+    }
+}
+
 // driver program to test MST algo
 // *** didn’t pass any parameter to main() function
 int main(void)
