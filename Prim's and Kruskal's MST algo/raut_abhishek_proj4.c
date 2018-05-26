@@ -290,6 +290,87 @@ void primsMSTarray()
     printMST(parent);
 }
 
+// Kruskal's MST algo implementation
+struct graph *createGraph(int v, int e)
+{
+    struct graph *g = NULL;
+    g = (struct graph *)malloc(sizeof(struct graph));
+    if (g == NULL)
+    {
+        return NULL;
+    }
+    g->no_of_vertices = v;
+    g->no_of_edges = e;
+    g->edges = (struct edge *)malloc(sizeof(struct edge) * e);
+    return g;
+}
+
+// find3 as discussed in notes
+int find3(struct set *sets, int i)
+{
+
+    if (sets[i].root != i)
+    {
+        sets[i].root = find3(sets, sets[i].root);
+    }
+    return sets[i].root;
+}
+
+// union3 as discussed in notes
+void union3(struct set *sets, int a, int b)
+{
+    int a_root = find3(sets, a);
+    int b_root = find3(sets, b);
+    if (sets[a_root].height < sets[b_root].height)
+    {
+        sets[a_root].root = b_root;
+    }
+    else if (sets[a_root].height > sets[b_root].height)
+    {
+        sets[b_root].root = a_root;
+    }
+    else
+    {
+        sets[b_root].root = a_root;
+        sets[a_root].height++;
+    }
+}
+
+void print_edges(struct edge *edges, int n)
+{
+    int i;
+    printf("Source Dest Weight\n");
+    for (i = 0; i < n; i++)
+    {
+        printf("%d\t%d\t%d\n", edges[i].source, edges[i].dest, edges[i].weight);
+    }
+}
+
+void convert_adjmatrix_to_edges(struct graph *graph)
+{
+    int i = 0, j = 0, k = 0;
+    for (i = 0; i < no_of_vertices; i++)
+    {
+        for (j = 0; j < i; j++)
+        {
+            {
+                graph->edges[k].source = i;
+                graph->edges[k].dest = j;
+                graph->edges[k].weight = adj_matrix[i][j];
+                k++;
+            }
+        }
+    }
+}
+
+int comparator(const void *x, const void *y)
+{
+    int x_weight = ((struct edge *)x)->weight;
+    int y_weight = ((struct edge *)y)->weight;
+    return x_weight > y_weight;
+}
+
+
 void kruskalsMST()
 {
     int i, j, k;
