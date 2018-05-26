@@ -290,6 +290,45 @@ void primsMSTarray()
     printMST(parent);
 }
 
+void kruskalsMST()
+{
+    int i, j, k;
+    int root_a, root_b;
+    struct edge current_edge;
+    struct graph *graph = createGraph(no_of_vertices, (no_of_vertices * (no_of_vertices - 1)) / 2);
+    if (graph == NULL)
+    {
+        printf("Memory allocation failed\n");
+        exit(-1);
+    }
+    convert_adjmatrix_to_edges(graph);
+    struct edge MST[no_of_vertices];
+    qsort(graph->edges, graph->no_of_edges, sizeof(struct edge), comparator);
+    struct set sets[graph->no_of_vertices];
+    for (i = 0; i < graph->no_of_vertices; i++)
+    {
+        sets[i].root = i;
+        sets[i].height = 0;
+    }
+    j = 0; //iterate through sorted edges
+    k = 0; //result array
+    for (i = 0; i < graph->no_of_edges && j < (graph->no_of_vertices - 1); i++)
+    { 
+        //iterate for MST
+        current_edge = graph->edges[i];
+        root_a = find3(sets, current_edge.source);
+        root_b = find3(sets, current_edge.dest);
+
+        if (root_a != root_b)
+        {
+            MST[j] = current_edge;
+            union3(sets, root_a, root_b);
+            j++;
+        }
+    }
+    printf("\nEdges in MST\n");
+    print_edges(MST, no_of_vertices - 1);
+}
 
 // GUI and driver utilities
 void printDialog()
