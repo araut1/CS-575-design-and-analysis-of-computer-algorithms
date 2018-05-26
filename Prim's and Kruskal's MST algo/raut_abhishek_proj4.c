@@ -218,6 +218,78 @@ int find_vertex_index(struct cost_vertex *heap, int vertex_to_find)
     }
 }
 
+//using heap prim's algo
+void primsMSTheap()
+{
+    int i, j, u;
+    int heap_loc_to_reduce;
+    int parent[no_of_vertices];
+    struct cost_vertex heap[no_of_vertices];
+    int mst[no_of_vertices];
+    memset(parent, -1, no_of_vertices * sizeof(int));
+    memset(mst, 0, no_of_vertices * sizeof(int)); //0 false, 1 true
+    for (i = 0; i < no_of_vertices; i++)
+    {
+        heap[i].vertex = i;
+        heap[i].cost = INT_MAX;
+    }
+    
+    //set starting point at vertex 0
+    heap[0].cost = 0;
+    heapSort(heap, no_of_vertices);
+    parent[0] = -1;
+    while (size_of_heap != 0)
+    {
+
+        u = delete_min(heap);
+        for (j = 0; j < no_of_vertices; j++)
+        {
+            if (adj_matrix[u][j] != 0 && adj_matrix[u][j] < heap[find_vertex_index(heap, j)].cost && mst[j] == 0)
+            {
+                parent[j] = u;
+                heap_loc_to_reduce = find_and_update_cost(heap, j, adj_matrix[u][j]);
+                decrease_key(heap, heap_loc_to_reduce);
+            }
+        }
+        mst[u] = 1;
+    }
+    printMST(parent);
+}
+
+//using array prim's algo
+void primsMSTarray()
+{
+    int i, j, u;
+    int parent[no_of_vertices];
+    int key[no_of_vertices];
+    int mst[no_of_vertices];
+    memset(parent, 0, no_of_vertices * sizeof(int));
+    memset(mst, 0, no_of_vertices * sizeof(int)); //0 false, 1 true
+    
+    for (i = 0; i < no_of_vertices; i++)
+    {
+        key[i] = INT_MAX;
+    }
+
+    //set starting point at vertex 0
+    key[0] = 0;
+    parent[0] = -1;
+    for (i = 0; i < no_of_vertices - 1; i++)
+    {
+        u = min_key(key, mst);
+        for (j = 0; j < no_of_vertices; j++)
+        {
+            if (adj_matrix[u][j] != 0 && mst[j] == 0 && adj_matrix[u][j] < key[j])
+            {
+                parent[j] = u;
+                key[j] = adj_matrix[u][j];
+            }
+        }
+        mst[u] = 1;
+    }
+    printMST(parent);
+}
+
 // driver program to test MST algo
 // *** didn’t pass any parameter to main() function
 int main(void)
