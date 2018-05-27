@@ -21,6 +21,58 @@ struct knapsack
 	int capacity;				  // total capacity of the knapsack
 };
 
+// knapsack generation
+struct knapsack *create_knapsack(int no_of_items)
+{
+	struct knapsack *k = malloc(sizeof(struct knapsack));
+	k->size = no_of_items;
+	k->items = malloc(sizeof(int) * no_of_items);
+	k->weight = malloc(sizeof(int) * no_of_items);
+	k->profit = malloc(sizeof(int) * no_of_items);
+	memset(k->items, 0, sizeof(int) * no_of_items);
+	memset(k->weight, 0, sizeof(int) * no_of_items);
+	memset(k->profit, 0, sizeof(int) * no_of_items);
+	k->capacity = -1;
+	return k;
+}
+
+// swap functionality
+void swap(int *arr, int i, int j)
+{
+	int temp = arr[i];
+	arr[i] = arr[j];
+	arr[j] = temp;
+}
+
+// prints knapsack functionality
+void print_knapsack(struct knapsack *k)
+{
+	int i;
+	printf("\nNumber of Items: %d\n", k->size);
+	printf("Item:\t");
+	for (i = 0; i < k->size; i++)
+		printf(" %2d ", k->items[i]);
+	printf("\n");
+	printf("Weight:\t");
+	for (i = 0; i < k->size; i++)
+		printf(" %2d ", k->weight[i]);
+	printf("\n");
+	printf("Profit:\t");
+	for (i = 0; i < k->size; i++)
+		printf(" %2d ", k->profit[i]);
+	printf("\nCapacity: %d\n", k->capacity);
+}
+
+// remove knapsack
+int delete_knapsack(struct knapsack *k)
+{
+	free(k->weight);
+	free(k->profit);
+	free(k->items);
+	free(k);
+	return 0;
+}
+
 // main driver code
 int main(void)
 {
