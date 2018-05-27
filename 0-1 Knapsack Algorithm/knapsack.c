@@ -185,6 +185,127 @@ int **get_power_set(int set_size)
 	return sets;
 }
 
+// first requirement of program
+void brute_force_knapsack(struct knapsack *k)
+{
+	int **subsets = get_power_set(k->size);
+	int current_total_weight, current_total_profit, best_weight = INT_MIN, best_profit = INT_MIN, best_subset = -1;
+	int i, j;
+	for (i = 0; i < pow(2, k->size); i++)
+	{
+		current_total_weight = 0;
+		current_total_profit = 0;
+		for (j = 0; j < k->size; j++)
+		{
+			//sum up items included
+			if (subsets[i][j])
+			{
+				current_total_profit += k->profit[j];
+				current_total_weight += k->weight[j];
+			}
+		}
+		if (current_total_profit > best_profit && current_total_weight <= k->capacity)
+		{
+			best_profit = current_total_profit;
+			best_subset = i;
+			best_weight = current_total_weight;
+		}
+	}
+	printf("\n-----------------------------");
+	printf("\nBrute Force Solution");
+	printf("\nTotal Profit:%d", best_profit);
+	printf("\nItem\tWeight\tProfit\n");
+	for (i = 0; i < k->size; i++)
+	{
+		if (subsets[best_subset][i])
+		{
+			printf("Item%d\t%d\t$%d\n", k->items[i], k->weight[i], k->profit[i]);
+		}
+	}
+	printf("\nTotal Weight:%d", best_weight);
+	printf("\n-----------------------------");
+	for (i = 0; i < pow(2, k->size); i++)
+		free(subsets[i]);
+	free(subsets);
+}
+
+//sets the data structure which gives the items to be included in the solution
+void set_include(int **include, int i, int w, int include_current, struct knapsack *k)
+{
+	if (include_current == 0)
+	{
+		include[i][w] = include[i - 1][w];
+	}
+	else
+	{
+		include[i][w] = include[i - 1][w - k->weight[i - 1]];
+		include[i][w] = include[i][w] | (1 << i);
+	}
+}
+
+void recursive_dp_knapsack(int **B, int i, int w, struct knapsack *k, int **include)
+{
+	int use_current, term1, term2;
+
+	//first rule
+	if (w <= 0 || i == 0)
+	{
+
+		B[i][0] = 0;
+		return;
+	}
+	//check if solution already generated i.e. check redundancy
+	if (B[i][w] != -1)
+	{
+		printf("............check2 encountered\n");
+		return;
+	}
+
+	//second rule
+	if (k->weight[i - 1] > w)
+	{
+		if (B[i - 1][w] == -1)
+			recursive_dp_knapsack(B, i - 1, w, k, include);
+		B[i][w] = B[i - 1][w];
+		set_include(include, i, w, 0, k);
+		return;
+	}
+
+	//check wether value already set or not
+	if (B[i - 1][w] == -1)
+	{
+		recursive_dp_knapsack(B, i - 1, w, k, include);
+	}
+	term1 = B[i - 1][w];
+
+	if (B[i - 1][w - k->weight[i - 1]] == -1)
+	{
+		recursive_dp_knapsack(B, i - 1, w - k->weight[i - 1], k, include);
+	}
+	term2 = B[i - 1][w - k->weight[i - 1]];
+
+	if ((B[i - 1][w]) > (B[i - 1][w - k->weight[i - 1]] + k->profit[i - 1]))
+	{
+		B[i][w] = B[i - 1][w];
+		set_include(include, i, w, 0, k);
+	}
+	else
+	{
+		B[i][w] = (B[i - 1][w - k->weight[i - 1]] + k->profit[i - 1]);
+		set_include(include, i, w, 1, k);
+	}
+	return;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
