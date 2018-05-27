@@ -129,6 +129,68 @@ void sort_knapsack_nondecreasing(struct knapsack *k)
 	}
 }
 
+// take input from user with validation
+int getAlgorithmId()
+{
+	int x = -1;
+	char ch;
+	if (scanf("%d", &x) != 1)
+	{
+		while ((ch = getchar()) != '\n' && ch != EOF);
+		printf("Please Enter a number\n");
+		return getAlgorithmId();
+	}
+	return x;
+}
+
+// check range of AlgorithmId
+int validateChoice(int algorithmId)
+{
+	if (algorithmId <= 0 || algorithmId >= 6)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+// check if user wants to exit
+void checkForExit(int algorithmId)
+{
+	if (algorithmId == 5)
+	{
+		printf("\nExiting...\n");
+		exit(0);
+	}
+}
+
+// developes power set
+int **get_power_set(int set_size)
+{
+	int power_set_size = pow(2, set_size);
+	int i, j;
+	int **sets = (int **)malloc(power_set_size * sizeof(int *));
+	for (i = 0; i < power_set_size; i++)
+		sets[i] = (int *)malloc(set_size * sizeof(int));
+
+	for (i = 0; i < power_set_size; i++)
+	{
+		for (j = 0; j < set_size; j++)
+		{
+			if (i & (1 << j))
+				sets[i][j] = 1;
+			else
+				sets[i][j] = 0;
+		}
+	}
+	return sets;
+}
+
+
+
+
+
+
+
 
 // main driver code
 int main(void)
