@@ -297,6 +297,20 @@ void recursive_dp_knapsack(int **B, int i, int w, struct knapsack *k, int **incl
 	return;
 }
 
+// print matrix functionality
+void print_matrix(int **B, struct knapsack *k)
+{
+	int i, j;
+	printf("B matrix after init:\n");
+	for (i = 0; i <= k->size; i++)
+	{
+		for (j = 0; j <= k->capacity; j++)
+		{
+			printf(" %2d ", B[i][j]); //= -1;
+		}
+		printf("\n");
+	}
+}
 
 
 
