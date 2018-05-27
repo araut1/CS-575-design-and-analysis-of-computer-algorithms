@@ -105,6 +105,31 @@ void init_knapsack2(struct knapsack *k)
 	k->weight[3] = 5;
 	k->capacity = 16;
 }
+
+// knapsack sorting
+void sort_knapsack_nondecreasing(struct knapsack *k)
+{
+	int i, j;
+	double pw1, pw2;
+	for (i = 0; i < k->size; i++)
+	{
+		pw1 = (double)k->profit[i] / (double)k->weight[i];
+		for (j = i + 1; j < k->size; j++)
+		{
+			pw2 = (double)k->profit[j] / (double)k->weight[j];
+
+			if (pw2 > pw1)
+			{
+				swap(k->items, i, j);
+				swap(k->weight, i, j);
+				swap(k->profit, i, j);
+				pw1 = pw2;
+			}
+		}
+	}
+}
+
+
 // main driver code
 int main(void)
 {
