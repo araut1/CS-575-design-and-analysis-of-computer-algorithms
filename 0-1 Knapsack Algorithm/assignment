@@ -1,1 +1,29 @@
-// info
+Randomly create a 0/1 Knapsack problem as follows: 
+•	Create n items where n is an integer randomly selected between 4 and 8. Display the selected n value. 
+•	Create a list of n items where each item has profit pi and weight wi where 
+1) pi is a positive integer randomly selected between 10 and 30; and 
+2) wI is a positive integer randomly selected between 5 and 20. Set the capacity of the knapsack W = floor(0.6 * 
+∑#$%&𝑤i). 
+ 
+To solve the created 0/1 knapsack problem, implement the following algorithms discussed in class: 
+1)Implement the brute force method to solve the 0/1 knapsack problem. Show the final solution. Specifically, 
+(a) print the total profit and weight; and (b) print the selected items together with their profits and weights. 
+
+2)Implement the refinement algorithm of dynamic programming approach (slides 38-40 of Ch12 lecture notes): 
+(a) print the entries that are calculated in each row; (b) print the total profit and weight for the final solution; and 
+(c) print the selected items together with their profits and weights for the final solution. Hint: you may need to define an 
+extra variable to keep track of which items to be included in the knapsack comparing to the pseudo code of the general 
+dynamic programming approach for the 0/1 knapsack problem (slide 33 of Ch12 lecture notes). If you have implemented the 
+refinement algorithm of dynamic programming approach correctly, the total profit achieved by this algorithm must be equal to 
+that achieved by the brute force method implemented in 1). 
+
+•	Note: You are supposed to implement the algorithm using the refinement algorithm of dynamic programming approach for the 
+0/1 knapsack problem. You will get no credit if you implement the general dynamic programming by calculating all the entries of
+matrix B (as shown in slide 33 of Ch12 lecture notes). We did not talk much about space complexity for this problem, and so 
+it is acceptable if you define a full matrix B but set the entries that do not need to be computed to zero. 
+
+3)Implement the backtracking algorithm: (a) print the profit, weight and bound for each node according to the order that is first visited 
+in the implicit pruned state space tree. (b) print the total profit and weight for the final solution; and (c) print the selected 
+items together with their profits and weights for the final solution. Compare the result to the result you have got in 
+1). If you have implemented the backtracking algorithm correctly, the total profit achieved by this backtracking method must be equal 
+to that achieved by the brute force method implemented in 1).  
