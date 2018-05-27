@@ -1,3 +1,26 @@
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <string.h>
+#include <limits.h>
+#include <math.h>
+#define DEBUG
+
+//global variables for backtracking solution
+int num = 0;			 //number of items considered for the best case
+int max_profit = 0;		 // maximum profit
+int *include;			 //current tree solution
+int *bestset;			 // best solution item include
+int preorder_node_order; // node arrangement
+
+// knapsack structure
+struct knapsack
+{
+	int size;					  // number of items for the problem
+	int *weight, *profit, *items; // arrays to hold size and capacity
+	int capacity;				  // total capacity of the knapsack
+};
+
 // main driver code
 int main(void)
 {
