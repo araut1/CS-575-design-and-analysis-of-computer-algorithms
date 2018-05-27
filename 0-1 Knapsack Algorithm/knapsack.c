@@ -312,6 +312,125 @@ void print_matrix(int **B, struct knapsack *k)
 	}
 }
 
+// second program requirement: Implement the refinement algorithm of dynamic programming approach
+void dynamic_programming_knapsack(struct knapsack *k)
+{
+	int **B;
+	// to save item,encoded into bits. max no_of_items limited to 32
+	int **include;
+	int i, j;
+	int total_weight = 0;
+	B = malloc(sizeof(int *) * (k->size + 1));
+	include = malloc(sizeof(int *) * (k->size + 1));
+
+	for (i = 0; i < k->size + 1; i++)
+	{
+		B[i] = malloc(sizeof(int) * (k->capacity + 1));
+		include[i] = malloc(sizeof(int) * (k->capacity + 1));
+		memset(include[i], 0, sizeof(int) * (k->capacity + 1));
+	}
+
+	for (i = 0; i <= k->size; i++)
+	{
+		for (j = 0; j <= k->capacity; j++)
+		{
+			if (i == 0 || j == 0)
+			{
+				B[i][j] = 0;
+			}
+			else
+			{
+				B[i][j] = -1;
+			}
+		}
+	}
+
+	recursive_dp_knapsack(B, k->size, k->capacity, k, include);
+
+	printf("\n-----------------------------");
+	printf("\nDynamic programming Solution");
+	printf("\nTotal Profit:%d", B[k->size][k->capacity]);
+	printf("\nItem\tWeight\tProfit\n");
+	int solution = include[k->size][k->capacity];
+	for (i = 1; i < k->size + 1; i++)
+	{
+		if (solution & (1 << i))
+		{
+			printf("Item%d\t%d\t$%d\n", k->items[i - 1], k->weight[i - 1], k->profit[i - 1]);
+			total_weight += k->weight[i - 1];
+		}
+	}
+	printf("\nTotal Weight:%d", total_weight);
+	printf("\n-----------------------------");
+	for (i = 0; i < k->size + 1; i++)
+	{
+		free(include[i]);
+		free(B[i]);
+	}
+	free(B);
+	free(include);
+}
+
+int kwf2(int i, int weight, int profit, struct knapsack *k)
+{
+	int bound = profit;
+	int j;
+	double fraction;
+	while (weight < k->capacity && i < k->size)
+	{
+		if ((weight + k->weight[i]) <= k->capacity)
+		{
+			weight += k->weight[i];
+			bound += k->profit[i];
+		}
+		else
+		{
+			fraction = (double)(k->capacity - weight) / (double)k->weight[i];
+			weight = k->capacity;
+			bound += (fraction * (double)k->profit[i]);
+		}
+		i++;
+	}
+	return bound;
+}
+
+// implemting to find promising routes
+int promising(struct knapsack *k, int i, int weight, int profit)
+{
+	int bound;
+	if (weight > k->capacity)
+	{
+		return 0;
+	}
+	bound = kwf2(i, weight, profit, k);
+	printf("UpperBound:%d\n", bound);
+	return (bound > max_profit);
+}
+
+void knapsack(struct knapsack *k, int i, int profit, int weight)
+{
+	if (weight <= k->capacity && profit > max_profit)
+	{
+		max_profit = profit;
+		num = i;
+		memcpy(bestset, include, sizeof(int) * k->size);
+	}
+	printf("\nNode:%d\n", preorder_node_order++);
+	printf("Total Profit:%d\n", profit);
+	printf("Total Weight:%d\n", weight);
+	if (promising(k, i, weight, profit))
+	{
+		printf("Promising\n");
+		include[i] = 1;
+		knapsack(k, i + 1, profit + k->profit[i], weight + k->weight[i]);
+		include[i] = 0;
+		knapsack(k, i + 1, profit, weight);
+	}
+	else
+	{
+		printf("Not promising\n");
+	}
+}
 
 
 
