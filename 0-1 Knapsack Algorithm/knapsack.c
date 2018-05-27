@@ -432,19 +432,39 @@ void knapsack(struct knapsack *k, int i, int profit, int weight)
 	}
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+// third requirment of program
+void backtracking_knapsack(struct knapsack *k)
+{
+	//sort items first in non-increasing order
+	printf("\n--Backtracking Approach:\n");
+	sort_knapsack_nondecreasing(k);
+	printf("Sorted Knapsack\n");
+	print_knapsack(k);
+	int total_weight = 0, i;
+	include = malloc(sizeof(int) * k->size);
+	bestset = malloc(sizeof(int) * k->size);
+	memset(bestset, 0, k->size * sizeof(int));
+	memset(include, 0, k->size * sizeof(int));
+	preorder_node_order = 1;
+	max_profit = INT_MIN;
+	knapsack(k, 0, 0, 0);
+	printf("\n-----------------------------");
+	printf("\nBacktracking Solution");
+	printf("\nTotal Profit:%d", max_profit);
+	printf("\nItem\tWeight\tProfit\n");
+	for (i = 0; i < k->size; i++)
+	{
+		if (bestset[i])
+		{
+			printf("Item%d\t%d\t$%d\n", k->items[i], k->weight[i], k->profit[i]);
+			total_weight += k->weight[i];
+		}
+	}
+	printf("\nTotal Weight:%d", total_weight);
+	printf("\n-----------------------------");
+	free(include);
+	free(bestset);
+}
 
 // main driver code
 int main(void)
