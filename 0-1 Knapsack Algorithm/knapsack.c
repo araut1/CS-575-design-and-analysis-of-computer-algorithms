@@ -73,6 +73,38 @@ int delete_knapsack(struct knapsack *k)
 	return 0;
 }
 
+// knapsack initialization
+void init_knapsack(struct knapsack *k)
+{
+	double total_weight = 0;
+	double rate = 0.6;
+	for (int i = 0; i < k->size; i++)
+	{
+		k->items[i] = i;
+		k->profit[i] = rand() % 20 + 10;
+		k->weight[i] = rand() % 15 + 5;
+		total_weight += k->weight[i];
+	}
+	k->capacity = (int)(rate * total_weight);
+}
+
+// knapsack initialization other
+void init_knapsack2(struct knapsack *k)
+{
+	for (int i = 0; i < k->size; i++)
+	{
+		k->items[i] = i;
+	}
+	k->profit[0] = 40;
+	k->weight[0] = 2;
+	k->profit[1] = 30;
+	k->weight[1] = 5;
+	k->profit[2] = 50;
+	k->weight[2] = 10;
+	k->profit[3] = 10;
+	k->weight[3] = 5;
+	k->capacity = 16;
+}
 // main driver code
 int main(void)
 {
